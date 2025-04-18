@@ -18,8 +18,8 @@ password = "1234"
     
 """
 
-pins = { "rooms": { "Sala": 2, "Cuarto 1": 3, "Cuarto 2": 4, "Cocina": 17, "Comedor": 27 }, 
-            "doors": { "Front_door": 23, "Back_door": 24, "3": 20, "4": 21 } }
+pins = { "rooms": { "living_room": 2, "bedroom1": 3, "bedroom2": 4, "kitchen": 17, "dining_room": 27 }, 
+            "doors": { "front_door": 23, "back_door": 24, "bedroom1_door": 20, "bedroom2_door": 21 } }
 
 
 # Setting status values constants
