@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/door_control_card.dart';
+import '../widgets/background_container.dart';
 
 class MainAccessView extends StatelessWidget {
   final bool isFrontDoorOpen;
@@ -17,7 +18,7 @@ class MainAccessView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Local mutable state inside the view for visual refresh
+    // Local state for visual refresh
     bool localFront = isFrontDoorOpen;
     bool localBack = isBackDoorOpen;
 
@@ -25,39 +26,43 @@ class MainAccessView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Main Access'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: StatefulBuilder(
-          builder: (context, setInnerState) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 16),
+      body: BackgroundContainer(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: StatefulBuilder(
+            builder: (context, setInnerState) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 16),
 
-                DoorControlCard(
-                  doorLabel: 'Front Door',
-                  isOpen: localFront,
-                  onToggle: () {
-                    onToggleFrontDoor();         // update in Dashboard
-                    localFront = !localFront;    // update locally
-                    setInnerState(() {});        // refresh this builder
-                  },
-                ),
+                  // Front door control
+                  DoorControlCard(
+                    doorLabel: 'Front Door',
+                    isOpen: localFront,
+                    onToggle: () {
+                      onToggleFrontDoor();      // Update parent state
+                      localFront = !localFront; // Update local view
+                      setInnerState(() {});     // Re-render
+                    },
+                  ),
 
-                const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-                DoorControlCard(
-                  doorLabel: 'Back Door',
-                  isOpen: localBack,
-                  onToggle: () {
-                    onToggleBackDoor();
-                    localBack = !localBack;
-                    setInnerState(() {});
-                  },
-                ),
-              ],
-            );
-          },
+                  // Back door control
+                  DoorControlCard(
+                    doorLabel: 'Back Door',
+                    isOpen: localBack,
+                    onToggle: () {
+                      onToggleBackDoor();
+                      localBack = !localBack;
+                      setInnerState(() {});
+                    },
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

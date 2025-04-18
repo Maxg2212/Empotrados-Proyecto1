@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/light_control_card.dart';
 import '../widgets/door_control_card.dart';
+import '../widgets/background_container.dart'; 
 
 class Bedroom1View extends StatelessWidget {
   final bool isLightOn;
@@ -9,14 +10,12 @@ class Bedroom1View extends StatelessWidget {
   final bool isBedroom1DoorOpen;
   final VoidCallback onToggleBedroom1Door;
 
-
-
   const Bedroom1View({
     super.key,
     required this.isLightOn,
     required this.onToggleLight,
     required this.isBedroom1DoorOpen,
-    required this.onToggleBedroom1Door
+    required this.onToggleBedroom1Door,
   });
 
   @override
@@ -29,36 +28,41 @@ class Bedroom1View extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Bedroom 1'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: StatefulBuilder(
-          builder: (context, setInnerState) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 16),
-                LightControlCard(
-                  lightLabel: 'Bedroom Light',
-                  isOn: localIsOn,
-                  onToggle: () {
-                    onToggleLight(); // updates global state in DashboardView
-                    localIsOn = !localIsOn; // updates this screen instantly
-                    setInnerState(() {});   // triggers rebuild
-                  },
-                ),
+      body: BackgroundContainer(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: StatefulBuilder(
+            builder: (context, setInnerState) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 16),
 
-                DoorControlCard(
-                  doorLabel: 'Bedroom Door',
-                  isOpen: localBedroom1Door,
-                  onToggle: () {
-                    onToggleBedroom1Door();         // update in Dashboard
-                    localBedroom1Door = !localBedroom1Door;    // update locally
-                    setInnerState(() {});        // refresh this builder
-                  },
-                ),
-              ],
-            );
-          },
+                  LightControlCard(
+                    lightLabel: 'Bedroom Light',
+                    isOn: localIsOn,
+                    onToggle: () {
+                      onToggleLight();
+                      localIsOn = !localIsOn;
+                      setInnerState(() {});
+                    },
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  DoorControlCard(
+                    doorLabel: 'Bedroom Door',
+                    isOpen: localBedroom1Door,
+                    onToggle: () {
+                      onToggleBedroom1Door();
+                      localBedroom1Door = !localBedroom1Door;
+                      setInnerState(() {});
+                    },
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

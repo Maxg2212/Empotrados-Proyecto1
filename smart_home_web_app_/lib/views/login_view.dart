@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dashboard_view.dart';
+import '../widgets/background_container.dart'; 
 
-//login view
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -20,15 +20,12 @@ class _LoginViewState extends State<LoginView> {
     final password = _passwordController.text.trim();
 
     if (username == 'admin' && password == '1234') {
-      //print('Login successful');
-
-     Navigator.push(
-      context,
-      MaterialPageRoute(
-      builder: (context) => DashboardView(username: username),
-    ),
-    );
-
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DashboardView(username: username),
+        ),
+      );
     } else {
       setState(() {
         _errorMessage = 'Invalid username or password';
@@ -42,40 +39,44 @@ class _LoginViewState extends State<LoginView> {
       appBar: AppBar(
         title: const Text('Smart Home Login'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(
-                labelText: 'Username',
-                border: OutlineInputBorder(),
-              ),
+      body: BackgroundContainer(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: _usernameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Username',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                  ),
+                  obscureText: true,
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: _handleLogin,
+                  child: const Text('Login'),
+                ),
+                if (_errorMessage != null) ...[
+                  const SizedBox(height: 12),
+                  Text(
+                    _errorMessage!,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                ],
+              ],
             ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-              ),
-              obscureText: true,
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: _handleLogin,
-              child: const Text('Login'),
-            ),
-            if (_errorMessage != null) ...[
-              const SizedBox(height: 12),
-              Text(
-                _errorMessage!,
-                style: const TextStyle(color: Colors.red),
-              ),
-            ],
-          ],
+          ),
         ),
       ),
     );
