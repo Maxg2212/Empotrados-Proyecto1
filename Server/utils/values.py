@@ -13,11 +13,13 @@ password = "1234"
         Editar los pines de acuerdo a nuestra raspberry, estos son de ejemplo.
 
         Cambiarle los nombres a las puertas, no por ids.
+
+        Posiblemente cambiarle nombre a los cuartos.
     
 """
 
 pins = { "rooms": { "Sala": 2, "Cuarto 1": 3, "Cuarto 2": 4, "Cocina": 17, "Comedor": 27 }, 
-            "doors": { "1": 23, "2": 24, "3": 20, "4": 21 } }
+            "doors": { "Front_door": 23, "Back_door": 24, "3": 20, "4": 21 } }
 
 
 # Setting status values constants

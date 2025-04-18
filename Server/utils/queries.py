@@ -24,3 +24,18 @@ def GetLightState(room: str):
         print("Light Error: {room} in pin {pin} is not available.")
     
     return result
+
+def ChangeAllLightsState(status):
+    roomValues = ["Sala", "Cuarto 1", "Cuarto 2", "Cocina", "Comedor"]
+    responses = []
+    if(status == 1):
+        for roomName in roomValues:
+            responses.append(TurnOnLight(roomName))
+    else:
+        for roomName in roomValues:
+            responses.append(TurnOffLight(roomName))
+            
+    for value in responses:
+        if(value != True):
+            return False
+    return True
