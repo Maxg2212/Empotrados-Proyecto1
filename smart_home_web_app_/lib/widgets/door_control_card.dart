@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 
-//door control widget 
-
-class DoorControlCard extends StatefulWidget {
+class DoorControlCard extends StatelessWidget {
   final String doorLabel;
+  final bool isOpen;
+  final VoidCallback onToggle;
 
   const DoorControlCard({
     super.key,
     required this.doorLabel,
+    required this.isOpen,
+    required this.onToggle,
   });
-
-  @override
-  State<DoorControlCard> createState() => _DoorControlCardState();
-}
-
-class _DoorControlCardState extends State<DoorControlCard> {
-  bool _isOpen = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,25 +23,21 @@ class _DoorControlCardState extends State<DoorControlCard> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              widget.doorLabel,
+              doorLabel,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             Text(
-              _isOpen ? 'Status: OPEN' : 'Status: CLOSED',
+              isOpen ? 'Status: OPEN' : 'Status: CLOSED',
               style: TextStyle(
-                color: _isOpen ? Colors.green : Colors.red,
+                color: isOpen ? Colors.green : Colors.red,
                 fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 12),
             ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _isOpen = !_isOpen;
-                });
-              },
-              child: Text(_isOpen ? 'Close Door' : 'Open Door'),
+              onPressed: onToggle,
+              child: Text(isOpen ? 'Close Door' : 'Open Door'),
             ),
           ],
         ),

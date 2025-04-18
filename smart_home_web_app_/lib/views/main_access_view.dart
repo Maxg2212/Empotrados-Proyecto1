@@ -1,38 +1,63 @@
 import 'package:flutter/material.dart';
 import '../widgets/door_control_card.dart';
 
+class MainAccessView extends StatelessWidget {
+  final bool isFrontDoorOpen;
+  final bool isBackDoorOpen;
+  final VoidCallback onToggleFrontDoor;
+  final VoidCallback onToggleBackDoor;
 
-// main access view 1
-class MainAccessView extends StatefulWidget {
-  const MainAccessView({super.key});
-
-  @override
-  State<MainAccessView> createState() => _MainAccessViewState();
-}
-
-class _MainAccessViewState extends State<MainAccessView> {
+  const MainAccessView({
+    super.key,
+    required this.isFrontDoorOpen,
+    required this.isBackDoorOpen,
+    required this.onToggleFrontDoor,
+    required this.onToggleBackDoor,
+  });
 
   @override
   Widget build(BuildContext context) {
+    // Local mutable state inside the view for visual refresh
+    bool localFront = isFrontDoorOpen;
+    bool localBack = isBackDoorOpen;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Main Access'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 16),
+        child: StatefulBuilder(
+          builder: (context, setInnerState) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 16),
 
-            // FRONT DOOR CONTROL
-            const DoorControlCard(doorLabel: 'Front Door'),
-          
-            const SizedBox(height: 24),
+                DoorControlCard(
+                  doorLabel: 'Front Door',
+                  isOpen: localFront,
+                  onToggle: () {
+                    onToggleFrontDoor();         // update in Dashboard
+                    localFront = !localFront;    // update locally
+                    setInnerState(() {});        // refresh this builder
+                  },
+                ),
 
-            // BACK DOOR CONTROL
-            const DoorControlCard(doorLabel: 'Back Door'),
-          ],
+                const SizedBox(height: 24),
+
+                DoorControlCard(
+                  doorLabel: 'Back Door',
+                  isOpen: localBack,
+                  onToggle: () {
+                    onToggleBackDoor();
+                    localBack = !localBack;
+                    setInnerState(() {});
+                  },
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
