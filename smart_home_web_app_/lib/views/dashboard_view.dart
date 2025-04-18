@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smart_home_web_app_/views/bedroom1_view.dart';
 import 'package:smart_home_web_app_/views/bedroom2_view.dart';
+import 'package:smart_home_web_app_/views/dining_room_view.dart';
+import 'package:smart_home_web_app_/views/kitchen_view.dart';
 import 'package:smart_home_web_app_/views/living_room_view.dart';
 import 'main_access_view.dart';
 
@@ -25,6 +27,22 @@ class _DashboardViewState extends State<DashboardView> {
   bool _isBedroom2DoorOpen = false; 
 
   bool _isLivingRoomLightOn = false; 
+
+  bool _isDiningRoomLightOn = false; 
+
+  bool _isKitchenLightOn = false; 
+
+  void _toggleKitchenLight(){
+    setState(() {
+      _isKitchenLightOn =! _isKitchenLightOn;
+    });
+  }
+
+  void _toggleDiningRoomLight(){
+    setState(() {
+      _isDiningRoomLightOn =! _isDiningRoomLightOn;
+    });
+  }
 
   void _toggleLivingRoomLight(){
     setState(() {
@@ -167,8 +185,31 @@ class _DashboardViewState extends State<DashboardView> {
               ),
             );
 
+          }else if (label == 'Dining Room'){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DiningRoomView(
+                  isLightOn: _isDiningRoomLightOn,
+                  onToggleLight: _toggleDiningRoomLight,
+                ),
+              ),
+            );
+          }else if (label == "Kitchen"){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => KitchenView(
+                  isLightOn: _isKitchenLightOn,
+                  onToggleLight: _toggleKitchenLight,
+                ),
+              ),
+            );
+
           }else {
-            print("tapped");
+
+            print("Tapped");
+
           }
         },
         borderRadius: BorderRadius.circular(12),
