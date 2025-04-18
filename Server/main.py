@@ -50,5 +50,24 @@ def ChangeLedStatus():
     response = data if result else fail
     return jsonify(response), 200
 
+#Obtain all light states
+@app.route("/light/status", methods=["GET"])
+def GetLights():
 
+    response = {
+        "error": False,
+        "data" : None,
+        "msg" : None,
+        "ok": True
+    }
+    
+    response["data"]= {
+        "Sala": queries.GetLightState("Sala"),
+        "Cuarto 1": queries.GetLightState("Cuarto 1"),
+        "Cuarto 2": queries.GetLightState("Cuarto 2"),
+        "Cocina": queries.GetLightState("Cocina"),
+        "Comedor": queries.GetLightState("Comedor"),
+    }
+        
+    return jsonify(response),200
 
