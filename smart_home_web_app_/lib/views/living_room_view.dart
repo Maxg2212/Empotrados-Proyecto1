@@ -1,33 +1,25 @@
 import 'package:flutter/material.dart';
 import '../widgets/light_control_card.dart';
-import '../widgets/door_control_card.dart';
 
-class Bedroom1View extends StatelessWidget {
+
+class LivingRoomView extends StatelessWidget {
   final bool isLightOn;
   final VoidCallback onToggleLight;
 
-  final bool isBedroom1DoorOpen;
-  final VoidCallback onToggleBedroom1Door;
-
-
-
-  const Bedroom1View({
+  const LivingRoomView({
     super.key,
     required this.isLightOn,
     required this.onToggleLight,
-    required this.isBedroom1DoorOpen,
-    required this.onToggleBedroom1Door
   });
 
   @override
   Widget build(BuildContext context) {
     // Local copy of the state so it can update the UI immediately
     bool localIsOn = isLightOn;
-    bool localBedroom1Door = isBedroom1DoorOpen;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bedroom 1'),
+        title: const Text('Living Room'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
@@ -38,22 +30,12 @@ class Bedroom1View extends StatelessWidget {
               children: [
                 const SizedBox(height: 16),
                 LightControlCard(
-                  lightLabel: 'Bedroom Light',
+                  lightLabel: 'Living Room Light',
                   isOn: localIsOn,
                   onToggle: () {
                     onToggleLight(); // updates global state in DashboardView
                     localIsOn = !localIsOn; // updates this screen instantly
                     setInnerState(() {});   // triggers rebuild
-                  },
-                ),
-
-                DoorControlCard(
-                  doorLabel: 'Bedroom Door',
-                  isOpen: localBedroom1Door,
-                  onToggle: () {
-                    onToggleBedroom1Door();         // update in Dashboard
-                    localBedroom1Door = !localBedroom1Door;    // update locally
-                    setInnerState(() {});        // refresh this builder
                   },
                 ),
               ],

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smart_home_web_app_/views/bedroom1_view.dart';
+import 'package:smart_home_web_app_/views/bedroom2_view.dart';
+import 'package:smart_home_web_app_/views/living_room_view.dart';
 import 'main_access_view.dart';
 
 class DashboardView extends StatefulWidget {
@@ -10,10 +13,48 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
-  
+
   // Door state lives here
   bool _isFrontDoorOpen = false;
   bool _isBackDoorOpen = false;
+
+  bool _isBedroom1LightOn = false; 
+  bool _isBedroom1DoorOpen = false; 
+
+  bool _isBedroom2LightOn = false;
+  bool _isBedroom2DoorOpen = false; 
+
+  bool _isLivingRoomLightOn = false; 
+
+  void _toggleLivingRoomLight(){
+    setState(() {
+      _isLivingRoomLightOn =! _isLivingRoomLightOn;
+    });
+  }
+
+   void _toggleBedroom2Light(){
+    setState(() {
+      _isBedroom2LightOn =! _isBedroom2LightOn;
+    });
+  }
+
+  void _toggleBedroom2Door(){
+    setState(() {
+      _isBedroom2DoorOpen =! _isBedroom2DoorOpen;
+    });
+  }
+
+  void _toggleBedroom1Door(){
+    setState(() {
+      _isBedroom1DoorOpen =! _isBedroom1DoorOpen;
+    });
+  }
+
+  void _toggleBedroom1Light(){
+    setState(() {
+      _isBedroom1LightOn =! _isBedroom1LightOn;
+    });
+  }
 
   void _toggleFrontDoor() {
     setState(() {
@@ -90,8 +131,44 @@ class _DashboardViewState extends State<DashboardView> {
                 ),
               ),
             );
-          } else {
-            print('$label tapped');
+          } else if (label == 'Bedroom 1'){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Bedroom1View(
+                  isLightOn: _isBedroom1LightOn,
+                  onToggleLight: _toggleBedroom1Light,
+                  isBedroom1DoorOpen: _isBedroom1DoorOpen,
+                  onToggleBedroom1Door: _toggleBedroom1Door,
+                ),
+              ),
+            );
+          } else if (label == 'Bedroom 2'){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Bedroom2View(
+                  isLightOn: _isBedroom2LightOn,
+                  onToggleLight: _toggleBedroom2Light,
+                  isBedroom2DoorOpen: _isBedroom2DoorOpen,
+                  onToggleBedroom2Door: _toggleBedroom2Door,
+                ),
+              ),
+            );
+            
+          }else if (label == 'Living Room'){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LivingRoomView(
+                  isLightOn: _isLivingRoomLightOn,
+                  onToggleLight: _toggleLivingRoomLight,
+                ),
+              ),
+            );
+
+          }else {
+            print("tapped");
           }
         },
         borderRadius: BorderRadius.circular(12),

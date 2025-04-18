@@ -2,32 +2,32 @@ import 'package:flutter/material.dart';
 import '../widgets/light_control_card.dart';
 import '../widgets/door_control_card.dart';
 
-class Bedroom1View extends StatelessWidget {
+class Bedroom2View extends StatelessWidget {
   final bool isLightOn;
   final VoidCallback onToggleLight;
 
-  final bool isBedroom1DoorOpen;
-  final VoidCallback onToggleBedroom1Door;
+  final bool isBedroom2DoorOpen;
+  final VoidCallback onToggleBedroom2Door;
 
 
 
-  const Bedroom1View({
+  const Bedroom2View({
     super.key,
     required this.isLightOn,
     required this.onToggleLight,
-    required this.isBedroom1DoorOpen,
-    required this.onToggleBedroom1Door
+    required this.isBedroom2DoorOpen,
+    required this.onToggleBedroom2Door
   });
 
   @override
   Widget build(BuildContext context) {
     // Local copy of the state so it can update the UI immediately
     bool localIsOn = isLightOn;
-    bool localBedroom1Door = isBedroom1DoorOpen;
+    bool localBedroom2Door = isBedroom2DoorOpen;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bedroom 1'),
+        title: const Text('Bedroom 2'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
@@ -49,10 +49,10 @@ class Bedroom1View extends StatelessWidget {
 
                 DoorControlCard(
                   doorLabel: 'Bedroom Door',
-                  isOpen: localBedroom1Door,
+                  isOpen: localBedroom2Door,
                   onToggle: () {
-                    onToggleBedroom1Door();         // update in Dashboard
-                    localBedroom1Door = !localBedroom1Door;    // update locally
+                    onToggleBedroom2Door();         // update in Dashboard
+                    localBedroom2Door = !localBedroom2Door;    // update locally
                     setInnerState(() {});        // refresh this builder
                   },
                 ),
