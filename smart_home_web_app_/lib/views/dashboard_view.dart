@@ -5,6 +5,8 @@ import 'package:smart_home_web_app_/views/dining_room_view.dart';
 import 'package:smart_home_web_app_/views/kitchen_view.dart';
 import 'package:smart_home_web_app_/views/living_room_view.dart';
 import 'main_access_view.dart';
+import 'package:lottie/lottie.dart';
+
 
 class DashboardView extends StatefulWidget {
   final String username;
@@ -92,40 +94,53 @@ class _DashboardViewState extends State<DashboardView> {
       appBar: AppBar(
         title: const Text('Smart Home Dashboard'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Welcome, ${widget.username}',
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            // GridView starts here
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 3,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                children: [
-                  _buildRoomTile(context, 'Main Access'),
-                  _buildRoomTile(context, 'Bedroom 1'),
-                  _buildRoomTile(context, 'Bedroom 2'),
-                  _buildRoomTile(context, 'Living Room'),
-                  _buildRoomTile(context, 'Dining Room'),
-                  _buildRoomTile(context, 'Kitchen'),
-                  _buildRoomTile(context, 'Garden'),
-                ],
-              ),
-            )
-          ],
-        ),
+      body: Stack(
+      children: [
+        // The flowing foggy background
+        SizedBox.expand(
+        child: Lottie.asset(
+        'assets/lottie/background.json',
+        fit: BoxFit.cover,
+        repeat: true,
       ),
+    ),
+    // Your content on top of the background
+    Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Welcome, ${widget.username}',
+            style: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Expanded(
+            child: GridView.count(
+              crossAxisCount: 3,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              children: [
+                _buildRoomTile(context, 'Main Access'),
+                _buildRoomTile(context, 'Bedroom 1'),
+                _buildRoomTile(context, 'Bedroom 2'),
+                _buildRoomTile(context, 'Living Room'),
+                _buildRoomTile(context, 'Dining Room'),
+                _buildRoomTile(context, 'Kitchen'),
+                _buildRoomTile(context, 'Garden'),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  ],
+),
+
     );
   }
 
