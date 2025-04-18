@@ -3,7 +3,7 @@ from flask_cors import CORS
 import bcrypt
 import os
 import utils.values as values
-import utils.values as queries
+import utils.queries as queries
  
 app = Flask(__name__)
 app.config["DEBUG"] = True
