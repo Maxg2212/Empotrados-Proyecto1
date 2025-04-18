@@ -26,7 +26,7 @@ def GetLightState(room: str):
     return result
 
 def ChangeAllLightsState(status):
-    roomValues = ["Sala", "Cuarto 1", "Cuarto 2", "Cocina", "Comedor"]
+    roomValues = ["living_room", "bedroom1", "bedroom2", "kitchen", "dining_room"]
     responses = []
     if(status == 1):
         for roomName in roomValues:

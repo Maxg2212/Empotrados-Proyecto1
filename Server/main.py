@@ -79,11 +79,11 @@ def GetLights():
     }
     
     response["data"]= {
-        "Sala": queries.GetLightState("Sala"),
-        "Cuarto 1": queries.GetLightState("Cuarto 1"),
-        "Cuarto 2": queries.GetLightState("Cuarto 2"),
-        "Cocina": queries.GetLightState("Cocina"),
-        "Comedor": queries.GetLightState("Comedor"),
+        "Sala": queries.GetLightState("living_room"),
+        "Cuarto 1": queries.GetLightState("bedroom1"),
+        "Cuarto 2": queries.GetLightState("bedroom2"),
+        "Cocina": queries.GetLightState("kitchen"),
+        "Comedor": queries.GetLightState("dining_room"),
     }
         
     return jsonify(response),200
