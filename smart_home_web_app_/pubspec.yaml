@@ -60,6 +60,13 @@ flutter:
 
   assets:
     - assets/lottie/background.json
+    - assets/images/
+    - assets/lottie/light_animation.json
+    - assets/lottie/light_animation_.json
+    - assets/lottie/light_animation__.json
+    - assets/lottie/door_animation.json
+
+    
 
   # To add assets to your application, add an assets section, like this:
   # assets:
