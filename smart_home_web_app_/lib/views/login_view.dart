@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dashboard_view.dart';
 import '../widgets/background_container.dart'; 
+import '../services/api_service.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -15,11 +16,14 @@ class _LoginViewState extends State<LoginView> {
 
   String? _errorMessage;
 
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
+
     final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
 
-    if (username == 'admin' && password == '1234') {
+    final success = await ApiService.login(username, password);
+
+    if (success) {
       Navigator.push(
         context,
         MaterialPageRoute(

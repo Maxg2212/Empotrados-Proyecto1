@@ -8,6 +8,7 @@ import '../views/living_room_view.dart';
 import 'main_access_view.dart';
 import '../views/control_panel_view.dart';
 import '../widgets/background_container.dart';
+import '../services/api_service.dart';
 
 class DashboardView extends StatefulWidget {
   final String username;
@@ -31,12 +32,108 @@ class _DashboardViewState extends State<DashboardView> {
   bool _isDiningRoomLightOn = false;
   bool _isKitchenLightOn = false;
 
-  void _toggleKitchenLight() => setState(() => _isKitchenLightOn = !_isKitchenLightOn);
-  void _toggleDiningRoomLight() => setState(() => _isDiningRoomLightOn = !_isDiningRoomLightOn);
-  void _toggleLivingRoomLight() => setState(() => _isLivingRoomLightOn = !_isLivingRoomLightOn);
-  void _toggleBedroom2Light() => setState(() => _isBedroom2LightOn = !_isBedroom2LightOn);
+
+  void _toggleKitchenLight() async {
+
+  final newStatus = !_isKitchenLightOn;
+
+  final success = await ApiService.updateLight('kitchen', newStatus);
+
+  if (success) {
+    setState(() {
+      _isKitchenLightOn = newStatus;
+    });
+  } else {
+    //show an error
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Failed to update Kitchen light')),
+    );
+  }
+
+}
+  
+  void _toggleDiningRoomLight() async {
+
+  final newStatus = !_isDiningRoomLightOn;
+
+  final success = await ApiService.updateLight('dining_room', newStatus);
+
+  if (success) {
+    setState(() {
+      _isDiningRoomLightOn = newStatus;
+    });
+  } else {
+    //show an error
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Failed to update Dining Room light')),
+    );
+  }
+
+}
+  
+
+
+  void _toggleLivingRoomLight() async {
+
+  final newStatus = !_isLivingRoomLightOn;
+
+  final success = await ApiService.updateLight('living_room', newStatus);
+
+  if (success) {
+    setState(() {
+      _isLivingRoomLightOn = newStatus;
+    });
+  } else {
+    //show an error
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Failed to update Living Room light')),
+    );
+  }
+
+}
+
+
+
+  void _toggleBedroom2Light() async {
+
+  final newStatus = !_isBedroom2LightOn;
+
+  final success = await ApiService.updateLight('bedroom2', newStatus);
+
+  if (success) {
+    setState(() {
+      _isBedroom2LightOn = newStatus;
+    });
+  } else {
+    //show an error
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Failed to update Bedroom 2 light')),
+    );
+  }
+
+}
+
+
   void _toggleBedroom2Door() => setState(() => _isBedroom2DoorOpen = !_isBedroom2DoorOpen);
-  void _toggleBedroom1Light() => setState(() => _isBedroom1LightOn = !_isBedroom1LightOn);
+  
+  void _toggleBedroom1Light() async {
+  final newStatus = !_isBedroom1LightOn;
+
+  final success = await ApiService.updateLight('bedroom1', newStatus);
+
+  if (success) {
+    setState(() {
+      _isBedroom1LightOn = newStatus;
+    });
+  } else {
+    //show an error
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Failed to update Bedroom 1 light')),
+    );
+  }
+}
+
+
   void _toggleBedroom1Door() => setState(() => _isBedroom1DoorOpen = !_isBedroom1DoorOpen);
   void _toggleFrontDoor() => setState(() => _isFrontDoorOpen = !_isFrontDoorOpen);
   void _toggleBackDoor() => setState(() => _isBackDoorOpen = !_isBackDoorOpen);
@@ -87,13 +184,23 @@ class _DashboardViewState extends State<DashboardView> {
                         lightsOn: lights,
                         totalDoors: doors.length,
                         doorsOpen: doors,
-                        onSetAllLights: (value) => setState(() {
-                          _isLivingRoomLightOn = value;
-                          _isKitchenLightOn = value;
-                          _isDiningRoomLightOn = value;
-                          _isBedroom1LightOn = value;
-                          _isBedroom2LightOn = value;
-                        }),
+                        onSetAllLights: (value) async {
+                          final success = await ApiService.updateAllLights(value);
+                          if (success) {
+                            setState(() {
+                              _isLivingRoomLightOn = value;
+                              _isKitchenLightOn = value;
+                              _isDiningRoomLightOn = value;
+                              _isBedroom1LightOn = value;
+                              _isBedroom2LightOn = value;
+                            });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Failed to update all lights')),
+                            );
+                          }
+                        },
+
                         onSetAllDoors: (value) => setState(() {
                           _isFrontDoorOpen = value;
                           _isBackDoorOpen = value;
