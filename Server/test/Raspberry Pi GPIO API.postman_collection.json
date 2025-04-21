@@ -1,0 +1,189 @@
+{
+	"info": {
+		"_postman_id": "df3e2d4b-a1b8-4c16-87ce-7c975aeff17a",
+		"name": "Raspberry Pi GPIO API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44203911",
+		"_collection_link": "https://lively-shadow-273223.postman.co/workspace/Naheem-Johnson-Sol%C3%ADs's-Workspac~c692e9fe-7982-482a-84cf-2a84eec2f2ee/collection/44203911-df3e2d4b-a1b8-4c16-87ce-7c975aeff17a?action=share&source=collection_link&creator=44203911"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"admin\", \"password\": \"1234\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change LED Status",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"area\": \"living_room\", \"status\": 1}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/light/update",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"light",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change All Lights Status",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"status\": 1}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/light/all/change",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"light",
+						"all",
+						"change"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Lights Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/light/status",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"light",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Door",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/door/status?door=front_door",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"door",
+						"status"
+					],
+					"query": [
+						{
+							"key": "door",
+							"value": "front_door"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Door Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/doors/status",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"doors",
+						"status"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
