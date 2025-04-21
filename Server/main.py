@@ -78,13 +78,64 @@ def GetLights():
         "ok": True
     }
     
+    
     response["data"]= {
-        "Sala": queries.GetLightState("living_room"),
-        "Cuarto 1": queries.GetLightState("bedroom1"),
-        "Cuarto 2": queries.GetLightState("bedroom2"),
-        "Cocina": queries.GetLightState("kitchen"),
-        "Comedor": queries.GetLightState("dining_room"),
+        "living_room": queries.GetLightState("living_room"),
+        "bedroom1": queries.GetLightState("bedroom1"),
+        "bedroom2": queries.GetLightState("bedroom2"),
+        "kitchen": queries.GetLightState("kitchen"),
+        "dining_room": queries.GetLightState("dining_room"),
     }
         
     return jsonify(response),200
+
+#Obtain one door state
+@app.route("/door/status", methods=["GET"])
+def GetDoor():
+    #GET params
+    door = request.args.get("door")
+    
+    #Print value
+    print(door)
+    
+    #Generic response
+    response = {
+        "error": False,
+        "data" : None,
+        "msg" : None,
+        "ok": True
+    }
+    #Check if pin is valid
+    if door in values.pins["doors"]:
+        response["data"]= {
+            "state": queries.GetDoorState(door),
+        }
+        
+    else:
+        response["errjson, or"]=True
+        response["data"]="Puerta {door}: No existe"
+        
+    return jsonify(response),200
+
+#Obtain all doors states
+@app.route("/doors/status", methods=["GET"])
+def GetDoors():
+
+    response = {
+        "error": False,
+        "data" : None,
+        "msg" : None,
+        "ok": True
+    }
+    
+    response["data"]={
+        "front_door": queries.GetDoorState("front_door"),
+        "back_door": queries.GetDoorState("back_door"),
+        "bedroom1_door": queries.GetDoorState("bedroom1_door"),
+        "bedroom2_door": queries.GetDoorState("bedroom2_door"),
+    }
+        
+    return jsonify(response),200
+
+
 

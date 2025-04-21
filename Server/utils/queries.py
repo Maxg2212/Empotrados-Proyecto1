@@ -39,3 +39,12 @@ def ChangeAllLightsState(status):
         if(value != True):
             return False
     return True
+
+def GetDoorState(room: str):
+    pin = values.pins["doors"][room]
+    result = digital_read(pin)
+
+    if (result == values.error):
+        print("Door Error: {room} in pin {pin} is not available.")
+    
+    return result
