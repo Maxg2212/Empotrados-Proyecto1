@@ -125,6 +125,65 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get Door",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/door/status?door=front_door",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"door",
+						"status"
+					],
+					"query": [
+						{
+							"key": "door",
+							"value": "front_door"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Door Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/doors/status",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"doors",
+						"status"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
