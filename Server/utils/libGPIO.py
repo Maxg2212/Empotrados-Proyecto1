@@ -20,7 +20,7 @@ def digital_read(pin: int) -> int:
 
 # int export_command(int PIN);
 def export_command(pin: int) -> int:
-    _export_command = gpioman_lib.export_command
+    _export_command = gpioman_lib.exportPin
     _export_command.restype = c_int
 
     return _export_command(c_int(pin))
@@ -39,7 +39,7 @@ def blink(pin: int, freq: float, duration: float) -> int:
 
 # int unexport_command(int PIN);
 def unexport_command(pin: int) -> int:
-    _unexport_command = gpioman_lib.unexport_command
+    _unexport_command = gpioman_lib.unexportPin
     _unexport_command.restype = c_int
 
     return _unexport_command(c_int(pin))
