@@ -30,6 +30,8 @@ def pin_mode(pin: int, direction: int) -> int:
     _pin_mode = gpioman_lib.pinMode
     _pin_mode.restype = c_int
 
+    return _pin_mode(c_int(pin), c_int(direction))
+
 # int blink(int pin, float freq, double duration);
 def blink(pin: int, freq: float, duration: float) -> int:
     _blink = gpioman_lib.blink
