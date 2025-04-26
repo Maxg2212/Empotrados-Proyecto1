@@ -137,6 +137,13 @@ def GetDoors():
         
     return jsonify(response),200
 
+@app.route('/home/getPhoto', methods=['GET'])
+def GetPhoto():
+
+    img_path = queries.TakePhoto()
+
+    return send_file(img_path)
+
 if __name__ == '__main__':
     queries.StartLights()
     queries.StartDoors()
