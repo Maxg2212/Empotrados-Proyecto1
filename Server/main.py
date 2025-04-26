@@ -137,7 +137,7 @@ def GetDoors():
         
     return jsonify(response),200
 
-if __name__ == '__main__':
-    queries.StartLights()
-    queries.StartDoors()
-    app.run(host=values.host, port=values.port)
+#if __name__ == '__main__':
+#    queries.StartLights()
+#    queries.StartDoors()
+#    app.run(host=values.host, port=values.port)
