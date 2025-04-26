@@ -9,6 +9,8 @@ import 'main_access_view.dart';
 import '../views/control_panel_view.dart';
 import '../widgets/background_container.dart';
 import '../services/api_service.dart';
+import '../views/garden_view.dart';
+
 
 class DashboardView extends StatefulWidget {
   final String username;
@@ -321,6 +323,11 @@ class _DashboardViewState extends State<DashboardView> {
           ),
         ));
         break;
+      case 'Garden':
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) => const GardenView(),
+      ));
+      break;
       default:
         print("Tapped on $label");
     }
