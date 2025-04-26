@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../widgets/background_container.dart';
+import '../services/api_service.dart'; // <- very important!
 
 class ControlPanelView extends StatefulWidget {
   final int totalLights;
@@ -8,7 +11,6 @@ class ControlPanelView extends StatefulWidget {
   final List<bool> doorsOpen;
 
   final void Function(bool) onSetAllLights;
-  final void Function(bool) onSetAllDoors;
 
   const ControlPanelView({
     super.key,
@@ -17,7 +19,6 @@ class ControlPanelView extends StatefulWidget {
     required this.totalDoors,
     required this.doorsOpen,
     required this.onSetAllLights,
-    required this.onSetAllDoors,
   });
 
   @override
@@ -27,12 +28,51 @@ class ControlPanelView extends StatefulWidget {
 class _ControlPanelViewState extends State<ControlPanelView> {
   late List<bool> localLights;
   late List<bool> localDoors;
+  late Timer _refreshTimer;
+  String _lastUpdated = '';
 
   @override
   void initState() {
     super.initState();
     localLights = List.from(widget.lightsOn);
     localDoors = List.from(widget.doorsOpen);
+
+    _startAutoRefresh();
+  }
+
+  @override
+  void dispose() {
+    _refreshTimer.cancel();
+    super.dispose();
+  }
+
+  void _startAutoRefresh() {
+    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (_) {
+      _fetchDoorStatuses();
+    });
+  }
+
+  Future<void> _fetchDoorStatuses() async {
+  try {
+    final doorData = await ApiService.getDoorsStatus();
+    setState(() {
+      localDoors = [
+        doorData!['front_door'] ?? false,
+        doorData['back_door'] ?? false,
+        doorData['bedroom1_door'] ?? false,
+        doorData['bedroom2_door'] ?? false,
+      ];
+      _lastUpdated = _formattedTimestamp();
+    });
+  } catch (e) {
+    print('Failed to fetch door statuses: $e');
+    
+  }
+}
+
+  String _formattedTimestamp() {
+    final now = DateTime.now();
+    return '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
   }
 
   void _showSnackBar(String message) {
@@ -86,24 +126,10 @@ class _ControlPanelViewState extends State<ControlPanelView> {
               const SizedBox(height: 32),
               _buildGlassCard(
                 title: '🚪 Doors Open: $doorsOpenCount / ${widget.totalDoors}',
-                buttons: [
-                  _glassButton(
-                    label: 'Open All',
-                    onPressed: () {
-                      widget.onSetAllDoors(true);
-                      setState(() => localDoors = List.filled(widget.totalDoors, true));
-                      _showSnackBar('All doors opened');
-                    },
-                  ),
-                  _glassButton(
-                    label: 'Close All',
-                    onPressed: () {
-                      widget.onSetAllDoors(false);
-                      setState(() => localDoors = List.filled(widget.totalDoors, false));
-                      _showSnackBar('All doors closed');
-                    },
-                  ),
-                ],
+                buttons: [], // No control buttons for doors anymore
+                extraInfo: _lastUpdated.isNotEmpty
+                    ? 'Last Updated: $_lastUpdated'
+                    : 'Waiting for update...',
               ),
             ],
           ),
@@ -115,6 +141,7 @@ class _ControlPanelViewState extends State<ControlPanelView> {
   Widget _buildGlassCard({
     required String title,
     required List<Widget> buttons,
+    String? extraInfo,
   }) {
     return Container(
       padding: const EdgeInsets.all(20),
@@ -134,14 +161,26 @@ class _ControlPanelViewState extends State<ControlPanelView> {
               color: Colors.white,
             ),
           ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(child: buttons[0]),
-              const SizedBox(width: 12),
-              Expanded(child: buttons[1]),
-            ],
-          ),
+          if (extraInfo != null) ...[
+            const SizedBox(height: 10),
+            Text(
+              extraInfo,
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.white70,
+              ),
+            ),
+          ],
+          if (buttons.isNotEmpty) ...[
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(child: buttons[0]),
+                const SizedBox(width: 12),
+                Expanded(child: buttons[1]),
+              ],
+            ),
+          ],
         ],
       ),
     );

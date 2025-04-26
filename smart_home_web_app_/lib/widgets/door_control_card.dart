@@ -5,13 +5,11 @@ import 'dart:ui';
 class DoorControlCard extends StatefulWidget {
   final String doorLabel;
   final bool isOpen;
-  final VoidCallback onToggle;
 
   const DoorControlCard({
     super.key,
     required this.doorLabel,
     required this.isOpen,
-    required this.onToggle,
   });
 
   @override
@@ -103,19 +101,12 @@ class _DoorControlCardState extends State<DoorControlCard> with SingleTickerProv
               const SizedBox(height: 8),
               Text(
                 widget.isOpen ? 'Status: OPEN' : 'Status: CLOSED',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: widget.isOpen ? Colors.greenAccent : Colors.redAccent,
                   fontWeight: FontWeight.w600,
+                  fontSize: 16,
                 ),
-              ),
-              const SizedBox(height: 12),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF474B4E).withOpacity(0.9),
-                  foregroundColor: Colors.white,
-                ),
-                onPressed: widget.onToggle,
-                child: Text(widget.isOpen ? 'Close Door' : 'Open Door'),
               ),
             ],
           ),

@@ -52,12 +52,7 @@ class Bedroom1View extends StatelessWidget {
 
                   DoorControlCard(
                     doorLabel: 'Bedroom Door',
-                    isOpen: localBedroom1Door,
-                    onToggle: () {
-                      onToggleBedroom1Door();
-                      localBedroom1Door = !localBedroom1Door;
-                      setInnerState(() {});
-                    },
+                    isOpen: localBedroom1Door
                   ),
                 ],
               );

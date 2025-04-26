@@ -5,23 +5,15 @@ import '../widgets/background_container.dart';
 class MainAccessView extends StatelessWidget {
   final bool isFrontDoorOpen;
   final bool isBackDoorOpen;
-  final VoidCallback onToggleFrontDoor;
-  final VoidCallback onToggleBackDoor;
 
   const MainAccessView({
     super.key,
     required this.isFrontDoorOpen,
     required this.isBackDoorOpen,
-    required this.onToggleFrontDoor,
-    required this.onToggleBackDoor,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Local state for visual refresh
-    bool localFront = isFrontDoorOpen;
-    bool localBack = isBackDoorOpen;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Main Access'),
@@ -29,39 +21,25 @@ class MainAccessView extends StatelessWidget {
       body: BackgroundContainer(
         child: Padding(
           padding: const EdgeInsets.all(24),
-          child: StatefulBuilder(
-            builder: (context, setInnerState) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 16),
 
-                  // Front door control
-                  DoorControlCard(
-                    doorLabel: 'Front Door',
-                    isOpen: localFront,
-                    onToggle: () {
-                      onToggleFrontDoor();      // Update parent state
-                      localFront = !localFront; // Update local view
-                      setInnerState(() {});     // Re-render
-                    },
-                  ),
+              // Front door monitoring
+              DoorControlCard(
+                doorLabel: 'Front Door',
+                isOpen: isFrontDoorOpen,
+              ),
 
-                  const SizedBox(height: 24),
+              const SizedBox(height: 24),
 
-                  // Back door control
-                  DoorControlCard(
-                    doorLabel: 'Back Door',
-                    isOpen: localBack,
-                    onToggle: () {
-                      onToggleBackDoor();
-                      localBack = !localBack;
-                      setInnerState(() {});
-                    },
-                  ),
-                ],
-              );
-            },
+              // Back door monitoring
+              DoorControlCard(
+                doorLabel: 'Back Door',
+                isOpen: isBackDoorOpen,
+              ),
+            ],
           ),
         ),
       ),
