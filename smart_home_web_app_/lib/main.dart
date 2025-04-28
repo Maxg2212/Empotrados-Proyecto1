@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'views/login_view.dart'; // Import your login screen
+import 'views/login_view.dart'; 
 
 
 //Main file for running the app 
