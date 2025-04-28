@@ -16,32 +16,7 @@ class _GardenViewState extends State<GardenView> {
   @override
   void initState() {
     super.initState();
-    
-  }
-
-  Future<void> _fetchLastPicture() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      
-      await Future.delayed(const Duration(seconds: 2));
-      setState(() {
-        _imageUrl = 'https://images.immediate.co.uk/production/volatile/sites/10/2024/01/2048x1365-Potager-Garden-SEO-GOTY-Competition-2018RobertBaileyScottNH180718GWRBS18009-11935f6.jpg';
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Loaded last picture (demo)')),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to load last picture')),
-      );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
+    // No picture loading at start
   }
 
   Future<void> _takeNewPicture() async {
@@ -50,13 +25,12 @@ class _GardenViewState extends State<GardenView> {
     });
 
     try {
-      
       await Future.delayed(const Duration(seconds: 2));
       setState(() {
-        _imageUrl = 'https://www.robertlandscapes.com/wp-content/uploads/2023/11/Blog-image-Multi-Level-Garden-Design.jpg';
+        _imageUrl = 'https://www.gibbsgardens.com/wp-content/uploads/2025/04/18ad3e97-4484-e1d2-5b1d-a016bcea50c2-1510x1510-c-default.jpg';
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('New picture taken (demo)')),
+        const SnackBar(content: Text('New photo taken')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -111,22 +85,9 @@ class _GardenViewState extends State<GardenView> {
                 ),
               ),
               const SizedBox(height: 24),
-              Row(
-                children: [
-                  Expanded(
-                    child: _glassButton(
-                      label: 'Take New Picture',
-                      onPressed: _takeNewPicture,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _glassButton(
-                      label: 'See Last Picture',
-                      onPressed: _fetchLastPicture,
-                    ),
-                  ),
-                ],
+              _glassButton(
+                label: 'Take New Picture',
+                onPressed: _takeNewPicture,
               ),
             ],
           ),
