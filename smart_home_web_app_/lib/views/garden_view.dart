@@ -1,6 +1,8 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../widgets/background_container.dart';
+import '../services/api_service.dart';
 
 class GardenView extends StatefulWidget {
   const GardenView({super.key});
@@ -10,14 +12,8 @@ class GardenView extends StatefulWidget {
 }
 
 class _GardenViewState extends State<GardenView> {
-  String? _imageUrl;
+  Uint8List? _imageBytes; // Use bytes, not URL
   bool _isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // No picture loading at start
-  }
 
   Future<void> _takeNewPicture() async {
     setState(() {
@@ -25,16 +21,23 @@ class _GardenViewState extends State<GardenView> {
     });
 
     try {
-      await Future.delayed(const Duration(seconds: 2));
-      setState(() {
-        _imageUrl = 'https://www.gibbsgardens.com/wp-content/uploads/2025/04/18ad3e97-4484-e1d2-5b1d-a016bcea50c2-1510x1510-c-default.jpg';
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('New photo taken')),
-      );
+      final bytes = await ApiService.takeGardenPicture();
+
+      if (bytes != null) {
+        setState(() {
+          _imageBytes = bytes;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('New picture taken successfully')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to take new picture')),
+        );
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to take new picture')),
+        const SnackBar(content: Text('Error while taking picture')),
       );
     } finally {
       setState(() {
@@ -69,11 +72,11 @@ class _GardenViewState extends State<GardenView> {
                             width: 150,
                             repeat: true,
                           )
-                        : _imageUrl != null
+                        : _imageBytes != null
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
-                                child: Image.network(
-                                  _imageUrl!,
+                                child: Image.memory(
+                                  _imageBytes!,
                                   fit: BoxFit.cover,
                                 ),
                               )

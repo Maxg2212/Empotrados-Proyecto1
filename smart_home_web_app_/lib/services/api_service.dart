@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -56,7 +57,7 @@ class ApiService {
     }
   }
 
-  //get status of all doors
+  // get status of all doors
   static Future<Map<String, bool>?> getDoorsStatus() async {
     final url = Uri.parse('$baseUrl/doors/status');
 
@@ -89,26 +90,41 @@ class ApiService {
 
   // get individual door status
   static Future<bool?> getDoorStatus(String doorName) async {
-  final url = Uri.parse('$baseUrl/door/status?door=$doorName');
+    final url = Uri.parse('$baseUrl/door/status?door=$doorName');
 
-  try {
-    final response = await http.get(url);
+    try {
+      final response = await http.get(url);
 
-    if (response.statusCode == 200) {
-      final body = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        final body = jsonDecode(response.body);
 
-      if (body['ok'] == true && body['error'] == false && body['data'] != null) {
-        return body['data'] == 1;
+        if (body['ok'] == true && body['error'] == false && body['data'] != null) {
+          return body['data'] == 1;
+        }
       }
+      return null;
+    } catch (e) {
+      print('Error fetching $doorName status: $e');
+      return null;
     }
-    return null;
-  } catch (e) {
-    print('Error fetching $doorName status: $e');
-    return null;
   }
-}
 
+  // get garden photo
+  static Future<Uint8List?> takeGardenPicture() async {
+    final url = Uri.parse('$baseUrl/home/getPhoto');
 
+    try {
+      final response = await http.get(url);
 
-
+      if (response.statusCode == 200) {
+        return response.bodyBytes; // Return the image bytes
+      } else {
+        print('Failed to get garden photo. Status code: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error taking garden picture: $e');
+      return null;
+    }
+  }
 }
