@@ -14,7 +14,7 @@ class KitchenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Local copy of the state so it can update the UI immediately
+    
     bool localIsOn = isLightOn;
 
     return Scaffold(

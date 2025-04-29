@@ -56,6 +56,7 @@ class ApiService {
       throw Exception('Failed to get light status');
     }
   }
+  
 
   // get status of all doors
   static Future<Map<String, bool>?> getDoorsStatus() async {

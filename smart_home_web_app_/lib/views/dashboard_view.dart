@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../views/bedroom1_view.dart';
@@ -5,12 +6,11 @@ import '../views/bedroom2_view.dart';
 import '../views/dining_room_view.dart';
 import '../views/kitchen_view.dart';
 import '../views/living_room_view.dart';
-import 'main_access_view.dart';
+import '../views/main_access_view.dart';
 import '../views/control_panel_view.dart';
+import '../views/garden_view.dart';
 import '../widgets/background_container.dart';
 import '../services/api_service.dart';
-import '../views/garden_view.dart';
-
 
 class DashboardView extends StatefulWidget {
   final String username;
@@ -23,21 +23,34 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   bool _isFrontDoorOpen = false;
   bool _isBackDoorOpen = false;
-
-  bool _isBedroom1LightOn = false;
   bool _isBedroom1DoorOpen = false;
-
-  bool _isBedroom2LightOn = false;
   bool _isBedroom2DoorOpen = false;
 
   bool _isLivingRoomLightOn = false;
-  bool _isDiningRoomLightOn = false;
   bool _isKitchenLightOn = false;
+  bool _isDiningRoomLightOn = false;
+  bool _isBedroom1LightOn = false;
+  bool _isBedroom2LightOn = false;
+
+  Timer? _doorStatusTimer;
 
   @override
   void initState() {
     super.initState();
-    _fetchDoorStatuses(); 
+    _fetchDoorStatuses();
+    _startDoorStatusAutoRefresh();
+  }
+
+  void _startDoorStatusAutoRefresh() {
+    _doorStatusTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _fetchDoorStatuses();
+    });
+  }
+
+  @override
+  void dispose() {
+    _doorStatusTimer?.cancel();
+    super.dispose();
   }
 
   Future<void> _fetchDoorStatuses() async {
@@ -88,8 +101,6 @@ class _DashboardViewState extends State<DashboardView> {
     }
   }
 
-  void _toggleBedroom2Door() => setState(() => _isBedroom2DoorOpen = !_isBedroom2DoorOpen);
-  
   void _toggleBedroom1Light() async {
     final newStatus = !_isBedroom1LightOn;
     final success = await ApiService.updateLight('bedroom1', newStatus);
@@ -97,10 +108,6 @@ class _DashboardViewState extends State<DashboardView> {
       setState(() => _isBedroom1LightOn = newStatus);
     }
   }
-
-  void _toggleBedroom1Door() => setState(() => _isBedroom1DoorOpen = !_isBedroom1DoorOpen);
-  void _toggleFrontDoor() => setState(() => _isFrontDoorOpen = !_isFrontDoorOpen);
-  void _toggleBackDoor() => setState(() => _isBackDoorOpen = !_isBackDoorOpen);
 
   @override
   Widget build(BuildContext context) {
@@ -285,7 +292,6 @@ class _DashboardViewState extends State<DashboardView> {
             isLightOn: _isBedroom1LightOn,
             onToggleLight: _toggleBedroom1Light,
             isBedroom1DoorOpen: _isBedroom1DoorOpen,
-            onToggleBedroom1Door: _toggleBedroom1Door,
           ),
         ));
         break;
@@ -295,7 +301,6 @@ class _DashboardViewState extends State<DashboardView> {
             isLightOn: _isBedroom2LightOn,
             onToggleLight: _toggleBedroom2Light,
             isBedroom2DoorOpen: _isBedroom2DoorOpen,
-            onToggleBedroom2Door: _toggleBedroom2Door,
           ),
         ));
         break;
@@ -324,10 +329,10 @@ class _DashboardViewState extends State<DashboardView> {
         ));
         break;
       case 'Garden':
-      Navigator.push(context, MaterialPageRoute(
-        builder: (context) => const GardenView(),
-      ));
-      break;
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) => const GardenView(),
+        ));
+        break;
       default:
         print("Tapped on $label");
     }
