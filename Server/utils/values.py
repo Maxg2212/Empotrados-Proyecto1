@@ -18,7 +18,7 @@ password = "1234"
     
 """
 
-pins = { "rooms": { "living_room": 13, "bedroom1": 6, "bedroom2": 4, "kitchen": 17, "dining_room": 27 }, 
+pins = { "rooms": { "living_room": 4, "bedroom1": 6, "bedroom2": 27, "kitchen": 13, "dining_room": 17 }, 
             "doors": { "front_door": 23, "back_door": 24, "bedroom1_door": 20, "bedroom2_door": 21 } }
 
 

@@ -64,3 +64,8 @@ def GetDoorState(room: str):
         print("Door Error: {room} in pin {pin} is not available.")
     
     return result
+
+def TakePhoto():
+    image_name = f'/Server/photos/{datetime.datetime.now()}.jpg'.replace(' ', '_')
+    os.system(f'fswebcam --no-banner {image_name}')
+    return image_name
